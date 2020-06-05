@@ -8,9 +8,9 @@ namespace webrtc_app
 {
 	public class VideoCallHub : Hub
 	{
-		public void Hello()
+		public void Hello(string message)
 		{
-			Clients.All.hello();
+			Clients.All.helloClient(message);
 		}
 	}
 }

@@ -13,10 +13,10 @@ namespace webrtc_app.Controllers
 			return View();
 		}
 
+		[HttpPost]
 		public ActionResult About()
 		{
-			ViewBag.Message = "Your application description page.";
-
+			ViewBag.Message = Request["UserName"];
 			return View();
 		}
 

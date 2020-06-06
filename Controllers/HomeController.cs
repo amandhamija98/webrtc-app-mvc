@@ -16,7 +16,7 @@ namespace webrtc_app.Controllers
 		[HttpPost]
 		public ActionResult About()
 		{
-			ViewBag.Message = Request["UserName"];
+			ViewBag.UserName = Request["UserName"];
 			return View();
 		}
 

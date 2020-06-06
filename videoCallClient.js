@@ -1,4 +1,5 @@
 ﻿
+console.log(UserName);
 var videoCall = $.connection.videoCallHub;
 
 videoCall.client.helloClient = function (message) {

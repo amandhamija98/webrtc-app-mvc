@@ -9,16 +9,13 @@ var myPeerConnection = null;
 var targetConnectionId;
 
 var videoCallProxy = $.connection.videoCallHub;
-$.connection.hub.logging = true
+//$.connection.hub.logging = true
 $.connection.hub.error(reportError);
-
-$.connection.hub.start().done(function () {
-    console.log("SignalR connection begun");
-    videoCallProxy.server.newUser(currentUserName)
-    .done(()=> console.log("Other users have been informed of new user"))
-    .fail(reportError);
-})
-.fail(reportError);
+$.connection.hub.disconnected(function () {
+    setTimeout(function () {
+        $.connection.hub.start();
+    }, 5000); // Restart connection after 5 seconds.
+});
 
 videoCallProxy.client.newUserJoined = function (newUserInfo) {
     activeUsers.push(newUserInfo);
@@ -41,6 +38,14 @@ videoCallProxy.client.receiveNewIceCandidate = handleNewICECandidateMsg;
 videoCallProxy.client.receiveVideoOffer = handleVideoOfferMsg;
 
 videoCallProxy.client.receiveVideoAnswer = handleVideoAnswerMsg;
+
+$.connection.hub.start().done(function () {
+  console.log("SignalR connection begun");
+  videoCallProxy.server.newUser(currentUserName)
+  .done(()=> console.log("Other users have been informed of new user"))
+  .fail(reportError);
+})
+.fail(reportError);
 
 /****Utility Functions******/
 
@@ -191,12 +196,10 @@ function closeVideoCall() {
   }
 
   function handleNewICECandidateMsg(msg) {
-      console.log("In handleNewIceCandidate method");
-      console.log(msg);
+
     var candidate = new RTCIceCandidate(msg.Sdp);
-  
      myPeerConnection.addIceCandidate(candidate)
-      .catch(reportError);
+     .catch(reportError);
   }
 
   function handleVideoOfferMsg(msg) {
@@ -233,13 +236,13 @@ function closeVideoCall() {
     .catch(handleGetUserMediaError);
   }
 
-  async function handleVideoAnswerMsg(msg) {
+  function handleVideoAnswerMsg(msg) {
   
     // Configure the remote description, which is the SDP payload
     // in our "video-answer" message.
-  
+
     var desc = new RTCSessionDescription(msg.Sdp);
-    await myPeerConnection.setRemoteDescription(desc).catch(reportError);
+    myPeerConnection.setRemoteDescription(desc).catch(reportError);
   }
 
   function handleRemoveTrackEvent() {

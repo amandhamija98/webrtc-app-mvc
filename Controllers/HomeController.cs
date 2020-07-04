@@ -8,15 +8,17 @@ namespace webrtc_app.Controllers
 {
 	public class HomeController : Controller
 	{
+		private string UserId;
 		public ActionResult Index()
-		{
+		{	
 			return View();
 		}
 
 		[HttpPost]
-		public ActionResult About()
+		public ActionResult About(string id)
 		{
 			ViewBag.UserName = Request["UserName"];
+			UserId = id;
 			return View();
 		}
 

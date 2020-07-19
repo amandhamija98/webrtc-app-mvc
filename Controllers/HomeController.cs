@@ -16,9 +16,10 @@ namespace webrtc_app.Controllers
 
 		[HttpPost]
 		public ActionResult About(string id)
+
 		{
 			ViewBag.UserName = Request["UserName"];
-			UserId = id;
+			ViewBag.GroupID = Request["GroupID"];
 			return View();
 		}
 

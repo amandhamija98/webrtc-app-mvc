@@ -4,8 +4,10 @@ var activeUsers = [];
 var onCall = false;
 var mediaConstraints = {
     audio: true, 
-    video: true 
+    video: true,
+    video: {width: {min: 1280}, height: {min: 720}}
   };
+
 var myPeerConnection = null;
 var targetConnectionId;
 

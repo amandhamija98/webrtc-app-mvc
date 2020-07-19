@@ -33,7 +33,7 @@
 .video-large {
   width: 100%;
   border: 1px solid black;
-  object-fit: fill;
+  /* object-fit: fill; */
 }
 
 .video-small{

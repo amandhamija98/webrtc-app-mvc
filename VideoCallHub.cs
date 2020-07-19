@@ -10,10 +10,10 @@ namespace webrtc_app
 {
 	public class VideoCallHub : Hub
 	{
-		
-		public async Task NewUser(string UserName){
+		public async Task NewUser(string UserName, string GroupID){
             UserInfo NewUserInfo = new UserInfo(){UserName = UserName, ConnectionId  = Context.ConnectionId , OnCall = false};
-            await Clients.Others.newUserJoined(NewUserInfo);
+            await Groups.Add(Context.ConnectionId, GroupID);
+            await Clients.OthersInGroup(GroupID).newUserJoined(NewUserInfo);
 			
         }
 

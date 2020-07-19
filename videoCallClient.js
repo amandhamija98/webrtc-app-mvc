@@ -1,4 +1,5 @@
 ﻿var currentUserName = UserName;
+var groupID = GroupID;
 var activeUsers = [];
 var onCall = false;
 var mediaConstraints = {
@@ -41,7 +42,7 @@ videoCallProxy.client.receiveVideoAnswer = handleVideoAnswerMsg;
 
 $.connection.hub.start().done(function () {
   console.log("SignalR connection begun");
-  videoCallProxy.server.newUser(currentUserName)
+  videoCallProxy.server.newUser(currentUserName,groupID)
   .done(()=> console.log("Other users have been informed of new user"))
   .fail(reportError);
 })

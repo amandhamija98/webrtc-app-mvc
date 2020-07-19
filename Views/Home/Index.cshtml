@@ -1,12 +1,15 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    ViewBag.UserId = "3";
+    @* ViewBag.UserId = "3";
+    value="@ViewBag.UserId" *@
 }
 
-<form method="post" action="/Home/About/@ViewBag.UserId">
+<form method="post" action="/Home/About">
   <div class="form-group">
     <label for="userName">User Name</label>
     <input  name="UserName" type="text" class="form-control" id="UserName"  placeholder="Enter User Name">
+    <label for="groupID">Group ID</label>
+    <input  name="GroupID" type="text" class="form-control" id="GroupID"  placeholder="Enter Group ID">
   </div>
-  <button type="submit" class="btn btn-primary" >Submit</button>
+  <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
 </form>

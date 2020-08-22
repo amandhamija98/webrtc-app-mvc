@@ -113,7 +113,17 @@ function createPeerConnection() {
     myPeerConnection = new RTCPeerConnection({
         iceServers: [     
           {
-            urls: "stun:stun.stunprotocol.org"
+            urls: "stun:stun.l.google.com:19302"
+          },
+          {
+            urls: ["turn:bn-turn1.xirsys.com:80?transport=udp",
+            "turn:bn-turn1.xirsys.com:3478?transport=udp",
+            "turn:bn-turn1.xirsys.com:80?transport=tcp",
+            "turn:bn-turn1.xirsys.com:3478?transport=tcp",
+            "turns:bn-turn1.xirsys.com:443?transport=tcp",
+            "turns:bn-turn1.xirsys.com:5349?transport=tcp"],
+            username:"ffTSrglcHFzGFJC4ms_xutSGSBQGJYSUi4AkAAR90DSbWxHyjZw-Lp6oDwfh86HwAAAAAF85U513ZWJSVEM=",
+            credential:"ec84e51a-dfd6-11ea-aeb9-0242ac140004"
           }
         ]
     });
@@ -159,7 +169,12 @@ function createPeerConnection() {
   }
 
   function handleTrackEvent(event) {
-    document.getElementById("received_video").srcObject = event.streams[0];
+    //document.getElementById("received_video").srcObject = event.streams[0];
+    console.log('track event muted = ' + event.track.muted);
+    event.track.onunmute = () => {
+      console.log('track unmuted');
+      document.getElementById("received_video").srcObject = event.streams[0];
+    }
     //document.getElementById("hangup-button").disabled = false;
   }
 
@@ -258,6 +273,7 @@ function closeVideoCall() {
   }
 
   function handleICEConnectionStateChangeEvent() {
+    console.log("ICE STATE", myPeerConnection.iceConnectionState);
     switch(myPeerConnection.iceConnectionState) {
       case "closed":
       case "failed":
